@@ -26,7 +26,45 @@ class Date
         Date(const int &, const int &, const int &);//Date, Month, Year
         Date() {date = month = 1, year = 1970;} //sets default date 01-01-1970
         int dayofweek(); //return 0 for Sun 1 for Mon and so on
-        void show() {printf("%02d-%02d-%d\n", date, month, year);}//shows date in dd-mm-yyyy format 
+        void show()
+        {
+            std::string str="";
+            std::cout<<mdc::days[day]<<" ";
+            if(date%10 == 1)
+            {
+                if(date <= 9)
+                    str += '0';
+                str += std::to_string(date);
+                std::cout<<str<<"st ";
+                str = "";
+            }
+            else if(date%10 == 2)
+            {
+                if(date <= 9)
+                    str += '0';
+                str += std::to_string(date);
+                std::cout<<str<<"nd ";
+                str = "";
+            }
+            else if(date%10 == 3)
+            {
+                if(date <= 9)
+                    str += '0';
+                str += std::to_string(date);
+                std::cout<<str<<"rd ";
+                str = "";
+            }
+            else
+            {
+                if(date <= 9)
+                    str += '0';
+                str += std::to_string(date);
+                std::cout<<str<<"th ";
+                str = "";
+            }
+            std::cout<<mdc::months[month-1]<<" ";
+            std::cout<<year<<'\n';
+        }//shows date in dd-mm-yyyy format 
         friend std::ostream& operator << (std::ostream &, const Date &);//date in day dd.st mmm yyyy
 };
 
@@ -51,21 +89,21 @@ class Time : public Date
                     break;
                 }
             for(int i=0; i<12; i++)
-                if(str.substr(10, 3) == mdc::days[i])
+                if(str.substr(4, 3) == mdc::months[i])
                 {
                     this->month = i+1;
                     break;
                 }
-            this->date = std::stoi(str.substr(8, 9));
-            this->year = std::stoi(str.substr(20, 24));
-            this->hrs = std::stoi(str.substr(11, 12));
-            this->min = std::stoi(str.substr(14, 15));
-            this->sec = std::stoi(str.substr(17, 18));
+            this->date = std::stoi(str.substr(8, 2));
+            this->year = std::stoi(str.substr(20, 4));
+            this->hrs = std::stoi(str.substr(11, 2));
+            this->min = std::stoi(str.substr(14, 2));
+            this->sec = std::stoi(str.substr(17, 2));
             
         }
         friend std::ostream& operator <<(std::ostream &, const Time &);
         friend std::istream& operator >>(std::istream &, Time &);
-}pivot;
+};
 
 Date::Date(const int &date, const int &month, const int &year) //Date, Month, Year
 {
