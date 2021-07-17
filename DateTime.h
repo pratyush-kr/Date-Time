@@ -44,7 +44,18 @@ class Time : public Date
         {
             time_t now = time(0);
             std::string str = (std::string)ctime(&now);
-
+            for(int i=0; i<7; i++)
+                if(str.substr(0, 3) == mdc::days[i])
+                {
+                    day = i;
+                    break;
+                }
+            for(int i=0; i<12; i++)
+                if(str.substr(10, 3) == mdc::days[i])
+                {
+                    month = i+1;
+                    break;
+                }
         }
         friend std::ostream& operator <<(std::ostream &, const Time &);
         friend std::istream& operator >>(std::istream &, Time &);
