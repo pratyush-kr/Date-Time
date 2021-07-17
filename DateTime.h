@@ -39,7 +39,7 @@ class Time : public Date
     public:
         Time(const int h, const int m, const int s)
         {hrs = h, min = m, sec = s;}
-        void show(){printf("%02x:%02x:%02x\n", hrs, min, sec);}
+        void show() {printf("%02x:%02x:%02x\n", hrs, min, sec);}
         Time()
         {
             time_t now = time(0);
@@ -47,15 +47,21 @@ class Time : public Date
             for(int i=0; i<7; i++)
                 if(str.substr(0, 3) == mdc::days[i])
                 {
-                    day = i;
+                    this->day = i;
                     break;
                 }
             for(int i=0; i<12; i++)
                 if(str.substr(10, 3) == mdc::days[i])
                 {
-                    month = i+1;
+                    this->month = i+1;
                     break;
                 }
+            this->date = std::stoi(str.substr(8, 9));
+            this->year = std::stoi(str.substr(20, 24));
+            this->hrs = std::stoi(str.substr(11, 12));
+            this->min = std::stoi(str.substr(14, 15));
+            this->sec = std::stoi(str.substr(17, 18));
+            
         }
         friend std::ostream& operator <<(std::ostream &, const Time &);
         friend std::istream& operator >>(std::istream &, Time &);
@@ -135,7 +141,7 @@ std::istream& operator >>(std::istream &in, Time &t)
     return in;
 }
 
-std::ostream& operator << (std::ostream& out, const Date &d)
+std::ostream& operator << (std::ostream &out, const Date &d)
 {
     std::string str="";
     out<<mdc::days[d.day]<<" ";
