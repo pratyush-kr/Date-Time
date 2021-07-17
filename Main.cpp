@@ -7,4 +7,7 @@ int main()
     std::cout<<d.dayofweek()<<'\n';
     std::cout<<d.check_leap()<<'\n';
     Time t(9, 52, 0);
+    t.show();
+    pivot.show();
+    pivot.Date::show();
 }

@@ -2,6 +2,8 @@
 
 #define YEAR_MIN 1000
 #define YEAR_MAX 3000
+class Date;
+class Time;
 
 class Date
 {
@@ -27,13 +29,11 @@ class Date
         {
             date = 1;
             month = 1;
-            year = YEAR_MIN;
+            year = 1970;
         }
         int dayofweek();
         void show()
-        {
-            std::cout<<date<<"-"<<month<<"-"<<year<<'\n';
-        }
+        {printf("%d-%d-%d\n", date, month, year);}
 };
 
 class Time : public Date
@@ -45,7 +45,8 @@ class Time : public Date
     public:
         Time(const int h, const int m, const int s)
         {hrs = h, min = m, sec = s;}
-    
+        void show(){printf("%d:%d:%d\n", hrs, min, sec);}
+        Time(){hrs = min = sec = 0;}
 };
 
 Date::Date(const int &date, const int &month, 
@@ -94,3 +95,5 @@ int Date::dayofweek()
     y -= m<3;
     return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
 }
+
+Time pivot;
