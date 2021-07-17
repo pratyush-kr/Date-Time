@@ -3,10 +3,9 @@
 
 int main()
 {
-    Date d(15, 11, 1999);
+    Date d(17, 7, 2021);
     d.show();
     Time t(9, 52, 0);
-    std::cout<<t<<'\n';
     std::cout<<d<<'\n';
     return 0;
 }

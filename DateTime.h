@@ -16,12 +16,12 @@ class Date
         unsigned int date; //date of month
         unsigned int year; //year
     public:
-        bool check_leap(int);
-        Date(const int &, const int &, const int &, const int);//Date, Month, Year
-        Date() {date = month = 1, year = 1970;}
-        int dayofweek();
-        void show() {printf("%02d-%02d-%d\n", date, month, year);}
-        friend std::ostream& operator << (std::ostream &, const Date &);
+        bool check_leap(int); //takes a year as an Integer and returns 1 if it is a leap year
+        Date(const int &, const int &, const int &);//Date, Month, Year
+        Date() {date = month = 1, year = 1970;} //sets default date 01-01-1970
+        int dayofweek(); //return 0 for Sun 1 for Mon and so on
+        void show() {printf("%02d-%02d-%d\n", date, month, year);}//shows date in dd-mm-yyyy format 
+        friend std::ostream& operator << (std::ostream &, const Date &);//date in day dd.st mmm yyyy
 };
 
 class Time : public Date
@@ -39,8 +39,7 @@ class Time : public Date
         friend std::istream& operator >>(std::istream &, Time &);
 }pivot;
 
-Date::Date(const int &date, const int &month, 
-            const int &year, const int day = 0) //Date, Month, Year
+Date::Date(const int &date, const int &month, const int &year) //Date, Month, Year
 {
     if((date > 31 || date <1) || (month > 12 || month < 1) || (year<YEAR_MIN || year>YEAR_MAX))
     {
@@ -72,10 +71,10 @@ Date::Date(const int &date, const int &month,
         }
     }
     //now assign these values
-    this->day = dayofweek();
     this->month = month;
     this->date = date;
     this->year = year;
+    this->day = dayofweek();
 }
 
 
@@ -85,8 +84,7 @@ int Date::dayofweek()
     int d = date, m = month, y = year;
     static int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
     y -= m<3;
-    day = (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
-    return day;
+    return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
 }
 
 std::ostream& operator <<(std::ostream &out, const Time &t)
@@ -134,7 +132,7 @@ std::ostream& operator << (std::ostream& out, const Date &d)
         if(d.date <= 9)
             str += '0';
         str += std::to_string(d.date);
-        out<<str<<"'nd ";
+        out<<str<<"nd ";
         str = "";
     }
     else if(d.date%10 == 3)
@@ -142,7 +140,7 @@ std::ostream& operator << (std::ostream& out, const Date &d)
         if(d.date <= 9)
             str += '0';
         str += std::to_string(d.date);
-        out<<str<<"'rd ";
+        out<<str<<"rd ";
         str = "";
     }
     else
@@ -150,7 +148,7 @@ std::ostream& operator << (std::ostream& out, const Date &d)
         if(d.date <= 9)
             str += '0';
         str += std::to_string(d.date);
-        out<<str<<"'th ";
+        out<<str<<"th ";
         str = "";
     }
     out<<months[d.month-1]<<" ";
