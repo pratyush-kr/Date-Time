@@ -8,6 +8,12 @@
 class Date;
 class Time;
 
+namespace mdc // mdc = month day cycle
+{
+    static std::string months[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct" "Nov", "Dec"};
+    static std::string days[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+}
+
 class Date
 {
     protected:
@@ -34,7 +40,12 @@ class Time : public Date
         Time(const int h, const int m, const int s)
         {hrs = h, min = m, sec = s;}
         void show(){printf("%02x:%02x:%02x\n", hrs, min, sec);}
-        Time(){hrs = min = sec = 0;}
+        Time()
+        {
+            time_t now = time(0);
+            std::string str = (std::string)ctime(&now);
+
+        }
         friend std::ostream& operator <<(std::ostream &, const Time &);
         friend std::istream& operator >>(std::istream &, Time &);
 }pivot;
@@ -116,9 +127,7 @@ std::istream& operator >>(std::istream &in, Time &t)
 std::ostream& operator << (std::ostream& out, const Date &d)
 {
     std::string str="";
-    std::string months[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct" "Nov", "Dec"};
-    std::string days[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-    out<<days[d.day]<<" ";
+    out<<mdc::days[d.day]<<" ";
     if(d.date%10 == 1)
     {
         if(d.date <= 9)
@@ -151,7 +160,7 @@ std::ostream& operator << (std::ostream& out, const Date &d)
         out<<str<<"th ";
         str = "";
     }
-    out<<months[d.month-1]<<" ";
+    out<<mdc::months[d.month-1]<<" ";
     out<<d.year;
     return out;
 }
