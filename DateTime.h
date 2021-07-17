@@ -1,7 +1,9 @@
 #include<iostream>
+#include<string>
 
 #define YEAR_MIN 1000
 #define YEAR_MAX 3000
+
 class Date;
 class Time;
 
@@ -33,7 +35,49 @@ class Date
         }
         int dayofweek();
         void show()
-        {printf("%d-%d-%d\n", date, month, year);}
+        {printf("%02d-%02d-%d\n", date, month, year);}
+        friend std::ostream& operator << (std::ostream& out, const Date &d)
+        {
+            std::string str="";
+            std::string months[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct" "Nov", "Dec"};
+            std::string days[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+            out<<days[d.day]<<" ";
+            if(d.date%10 == 1)
+            {
+                if(d.date <= 9)
+                    str += '0';
+                str += std::to_string(d.date);
+                out<<str<<"'st ";
+                str = "";
+            }
+            else if(d.date%10 == 2)
+            {
+                if(d.date <= 9)
+                    str += '0';
+                str += std::to_string(d.date);
+                out<<str<<"'nd ";
+                str = "";
+            }
+            else if(d.date%10 == 3)
+            {
+                if(d.date <= 9)
+                    str += '0';
+                str += std::to_string(d.date);
+                out<<str<<"'rd ";
+                str = "";
+            }
+            else
+            {
+                if(d.date <= 9)
+                    str += '0';
+                str += std::to_string(d.date);
+                out<<str<<"'th ";
+                str = "";
+            }
+            out<<months[d.month-1]<<" ";
+            out<<d.year;
+            return out;
+        }
 };
 
 class Time : public Date
@@ -45,9 +89,33 @@ class Time : public Date
     public:
         Time(const int h, const int m, const int s)
         {hrs = h, min = m, sec = s;}
-        void show(){printf("%d:%d:%d\n", hrs, min, sec);}
+        void show(){printf("%02x:%02x:%02x\n", hrs, min, sec);}
         Time(){hrs = min = sec = 0;}
-};
+        friend std::ostream& operator <<(std::ostream &out, const Time &t)
+        {
+            std::string str = "";
+            if(t.hrs <= 9)
+                str += '0';
+            str += std::to_string(t.hrs);
+            out<<str<<":";
+            str = "";
+            if(t.min <= 9)
+                str += '0';
+            str += std::to_string(t.min);
+            out<<str<<":";
+            str = "";
+            if(t.sec <= 9)
+                str += '0';
+            str += std::to_string(t.sec);
+            out<<str;
+            return out;
+        }
+        friend std::istream& operator >>(std::istream &in, Time &t)
+        {
+            in>>t.hrs>>t.min>>t.sec;
+            return in;
+        }
+}pivot;
 
 Date::Date(const int &date, const int &month, 
             const int &year, const int day = 0) //Date, Month, Year
@@ -93,7 +161,6 @@ int Date::dayofweek()
     int d = date, m = month, y = year;
     static int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
     y -= m<3;
-    return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
+    day = (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
+    return day;
 }
-
-Time pivot;
