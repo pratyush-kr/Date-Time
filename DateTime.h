@@ -39,7 +39,7 @@ class Time : public Date
     public:
         Time(const int h, const int m, const int s)
         {hrs = h, min = m, sec = s;}
-        void show() {printf("%02x:%02x:%02x\n", hrs, min, sec);}
+        void show() {printf("%02d:%02d:%02d\n", hrs, min, sec);}
         Time()
         {
             time_t now = time(0);
@@ -70,7 +70,7 @@ class Time : public Date
 
 //Date
 
-
+//Constructor of Date
 Date::Date(const int &date, const int &month, const int &year) //Date, Month, Year
 {
     if((date > 31 || date <1) || (month > 12 || month < 1) || (year<YEAR_MIN || year>YEAR_MAX))
@@ -116,47 +116,6 @@ int Date::dayofweek()
     static int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
     y -= m<3;
     return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
-}
-
-std::ostream& operator << (std::ostream &out, const Date &d)
-{
-    std::string str="";
-    out<<mdc::days[d.day]<<" ";
-    if(d.date%10 == 1)
-    {
-        if(d.date <= 9)
-            str += '0';
-        str += std::to_string(d.date);
-        out<<str<<"st ";
-        str = "";
-    }
-    else if(d.date%10 == 2)
-    {
-        if(d.date <= 9)
-            str += '0';
-        str += std::to_string(d.date);
-        out<<str<<"nd ";
-        str = "";
-    }
-    else if(d.date%10 == 3)
-    {
-        if(d.date <= 9)
-            str += '0';
-        str += std::to_string(d.date);
-        out<<str<<"rd ";
-        str = "";
-    }
-    else
-    {
-        if(d.date <= 9)
-            str += '0';
-        str += std::to_string(d.date);
-        out<<str<<"th ";
-        str = "";
-    }
-    out<<mdc::months[d.month-1]<<" ";
-    out<<d.year;
-    return out;
 }
 
 bool Date::check_leap(int year = 0)
@@ -216,6 +175,52 @@ void Date::show()
 
 //Time
 
+
+//End of Time
+
+
+std::ostream& operator << (std::ostream &out, const Date &d)
+{
+    std::string str="";
+    out<<mdc::days[d.day]<<" ";
+    if(d.date%10 == 1)
+    {
+        if(d.date <= 9)
+            str += '0';
+        str += std::to_string(d.date);
+        out<<str<<"st ";
+        str = "";
+    }
+    else if(d.date%10 == 2)
+    {
+        if(d.date <= 9)
+            str += '0';
+        str += std::to_string(d.date);
+        out<<str<<"nd ";
+        str = "";
+    }
+    else if(d.date%10 == 3)
+    {
+        if(d.date <= 9)
+            str += '0';
+        str += std::to_string(d.date);
+        out<<str<<"rd ";
+        str = "";
+    }
+    else
+    {
+        if(d.date <= 9)
+            str += '0';
+        str += std::to_string(d.date);
+        out<<str<<"th ";
+        str = "";
+    }
+    out<<mdc::months[d.month-1]<<" ";
+    out<<d.year;
+    return out;
+}
+
+
 std::ostream& operator <<(std::ostream &out, const Time &t)
 {
     std::string str = "";
@@ -241,5 +246,3 @@ std::istream& operator >>(std::istream &in, Time &t)
     in>>t.hrs>>t.min>>t.sec;
     return in;
 }
-
-//End of Time
