@@ -24,7 +24,7 @@ class Date
     public:
         bool check_leap(int); //takes a year as an Integer and returns 1 if it is a leap year
         Date(const int &, const int &, const int &);//Date, Month, Year
-        Date() {date = month = 1, year = 1970;} //sets default date 01-01-1970
+        Date();//sets default to present Date
         int dayofweek(); //return 0 for Sun 1 for Mon and so on
         void show();//shows date in dd-mm-yyyy format 
         friend std::ostream& operator << (std::ostream &, const Date &);//date in day dd.st mmm yyyy
@@ -44,22 +44,13 @@ class Time : public Date
         {
             time_t now = time(0);
             std::string str = (std::string)ctime(&now);
-            for(int i=0; i<7; i++)
-                if(str.substr(0, 3) == mdc::days[i])
-                {
-                    this->day = i;
-                    break;
-                }
-            for(int i=0; i<12; i++)
-                if(str.substr(4, 3) == mdc::months[i])
-                {
-                    this->month = i+1;
-                    break;
-                }
-            this->date = std::stoi(str.substr(8, 2));
-            this->year = std::stoi(str.substr(20, 4));
+            //str contains time int the format :-
+            //Www Mmm dd hh::mm::ss yyyy
+            //Getting hrs
             this->hrs = std::stoi(str.substr(11, 2));
+            //Getting min
             this->min = std::stoi(str.substr(14, 2));
+            //Getting sec
             this->sec = std::stoi(str.substr(17, 2));
             
         }
@@ -69,6 +60,32 @@ class Time : public Date
 
 
 //Date
+
+Date::Date()
+{
+    time_t now = time(0);
+    std::string str = (std::string)ctime(&now);
+    //str contains time int the format :-
+    //Www Mmm dd hh::mm::ss yyyy
+    //Getting Date
+    this->date = std::stoi(str.substr(8, 2));
+    //Getting week day
+    for(int i=0; i<7; i++)
+        if(str.substr(0, 3) == mdc::days[i])
+        {
+            this->day = i;
+            break;
+        }
+    //Getting Month
+    for(int i=0; i<12; i++)
+        if(str.substr(4, 3) == mdc::months[i])
+        {
+            this->month = i+1;
+            break;
+        }
+    //Getting Year
+    this->year = std::stoi(str.substr(20, 4));
+}
 
 //Constructor of Date
 Date::Date(const int &date, const int &month, const int &year) //Date, Month, Year
