@@ -26,7 +26,7 @@ class Date
         Date(const int &, const int &, const int &);//Date, Month, Year
         Date();//sets default to present Date
         int dayofweek(); //return 0 for Sun 1 for Mon and so on
-        void show();//shows date in dd-mm-yyyy format 
+        void show();//shows date in Www dddd Mmm yyyy
         friend std::ostream& operator << (std::ostream &, const Date &);//date in day dd.st mmm yyyy
 };
 
@@ -44,7 +44,7 @@ class Time : public Date
         {
             time_t now = time(0);
             std::string str = (std::string)ctime(&now);
-            //str contains time int the format :-
+            //str contains time in the format :-
             //Www Mmm dd hh::mm::ss yyyy
             //Getting hrs
             this->hrs = std::stoi(str.substr(11, 2));
@@ -52,7 +52,6 @@ class Time : public Date
             this->min = std::stoi(str.substr(14, 2));
             //Getting sec
             this->sec = std::stoi(str.substr(17, 2));
-            
         }
         friend std::ostream& operator <<(std::ostream &, const Time &);
         friend std::istream& operator >>(std::istream &, Time &);
