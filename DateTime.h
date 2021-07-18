@@ -26,45 +26,7 @@ class Date
         Date(const int &, const int &, const int &);//Date, Month, Year
         Date() {date = month = 1, year = 1970;} //sets default date 01-01-1970
         int dayofweek(); //return 0 for Sun 1 for Mon and so on
-        void show()
-        {
-            std::string str="";
-            std::cout<<mdc::days[day]<<" ";
-            if(date%10 == 1)
-            {
-                if(date <= 9)
-                    str += '0';
-                str += std::to_string(date);
-                std::cout<<str<<"st ";
-                str = "";
-            }
-            else if(date%10 == 2)
-            {
-                if(date <= 9)
-                    str += '0';
-                str += std::to_string(date);
-                std::cout<<str<<"nd ";
-                str = "";
-            }
-            else if(date%10 == 3)
-            {
-                if(date <= 9)
-                    str += '0';
-                str += std::to_string(date);
-                std::cout<<str<<"rd ";
-                str = "";
-            }
-            else
-            {
-                if(date <= 9)
-                    str += '0';
-                str += std::to_string(date);
-                std::cout<<str<<"th ";
-                str = "";
-            }
-            std::cout<<mdc::months[month-1]<<" ";
-            std::cout<<year<<'\n';
-        }//shows date in dd-mm-yyyy format 
+        void show();//shows date in dd-mm-yyyy format 
         friend std::ostream& operator << (std::ostream &, const Date &);//date in day dd.st mmm yyyy
 };
 
@@ -105,6 +67,10 @@ class Time : public Date
         friend std::istream& operator >>(std::istream &, Time &);
 };
 
+
+//Date
+
+
 Date::Date(const int &date, const int &month, const int &year) //Date, Month, Year
 {
     if((date > 31 || date <1) || (month > 12 || month < 1) || (year<YEAR_MIN || year>YEAR_MAX))
@@ -144,39 +110,12 @@ Date::Date(const int &date, const int &month, const int &year) //Date, Month, Ye
 }
 
 
-
 int Date::dayofweek()
 {
     int d = date, m = month, y = year;
     static int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
     y -= m<3;
     return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
-}
-
-std::ostream& operator <<(std::ostream &out, const Time &t)
-{
-    std::string str = "";
-    if(t.hrs <= 9)
-        str += '0';
-    str += std::to_string(t.hrs);
-    out<<str<<":";
-    str = "";
-    if(t.min <= 9)
-        str += '0';
-    str += std::to_string(t.min);
-    out<<str<<":";
-    str = "";
-    if(t.sec <= 9)
-        str += '0';
-    str += std::to_string(t.sec);
-    out<<str;
-    return out;
-}
-
-std::istream& operator >>(std::istream &in, Time &t)
-{
-    in>>t.hrs>>t.min>>t.sec;
-    return in;
 }
 
 std::ostream& operator << (std::ostream &out, const Date &d)
@@ -231,3 +170,76 @@ bool Date::check_leap(int year = 0)
     else
         return false;
 }
+
+void Date::show()
+{
+    std::string str="";
+    std::cout<<mdc::days[day]<<" ";
+    if(date%10 == 1)
+    {
+        if(date <= 9)
+            str += '0';
+        str += std::to_string(date);
+        std::cout<<str<<"st ";
+        str = "";
+    }
+    else if(date%10 == 2)
+    {
+        if(date <= 9)
+            str += '0';
+        str += std::to_string(date);
+        std::cout<<str<<"nd ";
+        str = "";
+    }
+    else if(date%10 == 3)
+    {
+        if(date <= 9)
+            str += '0';
+        str += std::to_string(date);
+        std::cout<<str<<"rd ";
+        str = "";
+    }
+    else
+    {
+        if(date <= 9)
+            str += '0';
+        str += std::to_string(date);
+        std::cout<<str<<"th ";
+        str = "";
+    }
+    std::cout<<mdc::months[month-1]<<" ";
+    std::cout<<year<<'\n';
+}
+
+//End of Date
+
+
+//Time
+
+std::ostream& operator <<(std::ostream &out, const Time &t)
+{
+    std::string str = "";
+    if(t.hrs <= 9)
+        str += '0';
+    str += std::to_string(t.hrs);
+    out<<str<<":";
+    str = "";
+    if(t.min <= 9)
+        str += '0';
+    str += std::to_string(t.min);
+    out<<str<<":";
+    str = "";
+    if(t.sec <= 9)
+        str += '0';
+    str += std::to_string(t.sec);
+    out<<str;
+    return out;
+}
+
+std::istream& operator >>(std::istream &in, Time &t)
+{
+    in>>t.hrs>>t.min>>t.sec;
+    return in;
+}
+
+//End of Time
