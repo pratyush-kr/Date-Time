@@ -3,10 +3,11 @@
 
 int main()
 {
-    Time q;
-    std::cout<<q<<'\n';
-    q.Date::show();
-    Date d;
-    std::cout<<d<<'\n';
+    int sum = 0, i;
+    for(i=43; i<51; i++)
+    {
+        sum += i;
+    }
+    std::cout<<sum<<'\n';
     return 0;
 }
